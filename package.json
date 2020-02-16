@@ -1,0 +1,37 @@
+{
+  "name": "mojito",
+  "version": "1.0.0",
+  "description": "audit single repository",
+  "main": "index.js",
+  "scripts": {
+    "compile": "npx truffle compile",
+    "coverage": "npx truffle run coverage",
+    "docs": "scripts/docs.sh",
+    "lint": "npm run lint:js && npm run lint:sol",
+    "lint:js": "eslint '*/**/*.{js,ts}' --quiet --fix",
+    "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
+    "prettier": "prettier --write **/**/*.sol",
+    "test": "scripts/test.sh",
+    "vertigo": "scripts/vertigo.sh",
+    "analyze": "slither ./contracts"
+  },
+  "author": "yoonsung",
+  "license": "ISC",
+  "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.3",
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.7",
+    "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "ganache-cli": "^6.9.0",
+    "prettier": "^1.19.1",
+    "prettier-plugin-solidity": "^1.0.0-alpha.34",
+    "solhint": "^2.3.0",
+    "solidity-coverage": "^0.7.1",
+    "truffle": "^5.1.11",
+    "truffle-hdwallet-provider": "^1.0.17",
+    "web3": "^1.2.6"
+  },
+  "dependencies": {}
+}
