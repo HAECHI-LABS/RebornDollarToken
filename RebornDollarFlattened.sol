@@ -310,18 +310,23 @@ contract Ownable {
         ownerAddress = _owner;
     }
 
-    function transferOwnership(address newOwner)
-        public
-        onlyOwner
-        returns (bool success)
-    {
+    function _transferOwnership(address newOwner) internal returns (bool success){
         emit OwnershipTransferred(_owner, newOwner);
         _owner = newOwner;
         success = true;
     }
 
+    function transferOwnership(address newOwner)
+        public
+        onlyOwner
+        returns (bool success)
+    {
+        require(newOwner != address(0), "Ownable : use renounceOwnership to remove owner");
+        return _transferOwnership(newOwner);
+    }
+
     function renounceOwnership() external onlyOwner returns (bool success) {
-        success = transferOwnership(address(0x00));
+        success = _transferOwnership(address(0));
     }
 }
 
@@ -427,31 +432,35 @@ pragma solidity 0.5.11;
 
 
 contract Pausable is Ownable {
-    bool internal paused;
+    bool internal _paused;
 
     event Paused();
     event Unpaused();
 
     modifier whenPaused() {
-        require(paused);
+        require(_paused);
         _;
     }
 
     modifier whenNotPaused() {
-        require(!paused);
+        require(!_paused);
         _;
     }
 
     function pause() external onlyOwner whenNotPaused returns (bool success) {
-        paused = true;
+        _paused = true;
         emit Paused();
         success = true;
     }
 
     function unPause() external onlyOwner whenPaused returns (bool success) {
-        paused = false;
+        _paused = false;
         emit Unpaused();
         success = true;
+    }
+
+    function paused() external view returns (bool) {
+        return _paused;
     }
 }
 
