@@ -25,6 +25,7 @@ contract RebornDollar is
         external
         whenNotFrozen(msg.sender)
         whenNotPaused
+        checkLock(msg.sender, amount)
         returns (bool success)
     {
         require(
@@ -39,6 +40,7 @@ contract RebornDollar is
         external
         whenNotFrozen(from)
         whenNotPaused
+        checkLock(from, amount)
         returns (bool success)
     {
         require(
