@@ -25,17 +25,22 @@ contract Ownable {
         ownerAddress = _owner;
     }
 
-    function transferOwnership(address newOwner)
-        public
-        onlyOwner
-        returns (bool success)
-    {
+    function _transferOwnership(address newOwner) internal returns (bool success){
         emit OwnershipTransferred(_owner, newOwner);
         _owner = newOwner;
         success = true;
     }
 
+    function transferOwnership(address newOwner)
+        public
+        onlyOwner
+        returns (bool success)
+    {
+        require(newOwner != address(0), "Ownable : use renounceOwnership to remove owner");
+        return _transferOwnership(newOwner);
+    }
+
     function renounceOwnership() external onlyOwner returns (bool success) {
-        success = transferOwnership(address(0x00));
+        success = _transferOwnership(address(0));
     }
 }
